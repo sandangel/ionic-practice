@@ -1,17 +1,16 @@
-import {SelectQuote} from '../../data/store/quotes.actions';
+import {map} from 'rxjs/operators/map';
 import {Component} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, NavParams} from 'ionic-angular';
 
-import {AppState} from '../../data/app.store';
-import {Quote, Quotes, AddFavQuote} from '../../data/store';
-
-/**
- * Generated class for the QuotesPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {AppState} from '../../store/app.store';
+import {
+  AddFavQuote,
+  Quote,
+  Quotes,
+  selectFavQuoteEntities,
+  RemoveFavQuote
+} from '../../store/quote';
 
 @IonicPage()
 @Component({
@@ -22,22 +21,16 @@ export class QuotesPage {
   quoteGroup: Quotes;
 
   constructor(
-    public navCtrl: NavController,
     public navParams: NavParams,
     private alertCtrl: AlertController,
     private store: Store<AppState>
   ) {}
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad QuotesPage');
-  }
-
   ngOnInit() {
     this.quoteGroup = this.navParams.get('quoteGroup');
   }
 
-  onAddToFavorite(selectedQuote: Quote) {
-    const quotesPage = this;
+  onAddToFav(selectedQuote: Quote) {
     const alert = this.alertCtrl.create({
       title: 'Alert',
       subTitle: 'Add Quote?',
@@ -46,15 +39,23 @@ export class QuotesPage {
         {
           text: 'Yes, go a head',
           handler: () =>
-            quotesPage.store.dispatch<AddFavQuote>({
+            this.store.dispatch<AddFavQuote>({
               type: '[Quote] Add Fav Quote',
               payload: selectedQuote
             })
         },
-        {text: 'No, I changed my mind!', handler: () => console.log('Cancelled')}
+        {text: 'No, I changed my mind!'}
       ]
     });
 
     alert.present();
+  }
+
+  onRemoveFromFav(quote: Quote) {
+    this.store.dispatch<RemoveFavQuote>({type: '[Quote] Remove Fav Quote', payload: quote});
+  }
+
+  isFavorite(quote: Quote) {
+    return this.store.select(selectFavQuoteEntities).pipe(map(dict => !!dict[quote.id]));
   }
 }

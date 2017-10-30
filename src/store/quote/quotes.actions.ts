@@ -15,4 +15,8 @@ export interface SelectQuote {
   payload: Quote;
 }
 
-export type QuoteActions = AddFavQuote | RemoveFavQuote | SelectQuote;
+export interface DeselectQuote {
+  readonly type: '[Quote] Deselect Quote';
+}
+
+export type QuoteActions = AddFavQuote | RemoveFavQuote | SelectQuote | DeselectQuote;

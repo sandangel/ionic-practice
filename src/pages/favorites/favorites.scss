@@ -2,4 +2,10 @@ page-favorites {
   .author {
     color: rgb(150, 150, 150);
   }
+
+  ion-col,
+  ion-row,
+  ion-grid {
+    border: 1px dashed #ccc;
+  }
 }

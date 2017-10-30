@@ -19,6 +19,11 @@ export function favQuoteReducer(state = favQuoteInitialState, action: QuoteActio
         ...state,
         selectedFavQuote: action.payload
       };
+    case '[Quote] Deselect Quote':
+      return {
+        ...state,
+        selectedFavQuote: null
+      };
     default: {
       return state;
     }

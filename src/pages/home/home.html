@@ -1,0 +1,50 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col text-center>
+        <h2>Enter the right Code</h2>
+        <p>Instruction</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <ion-item>Tapped: </ion-item>
+          <ion-item>Pressed: </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>
+        <button ion-button
+                small
+                color="danger">Reset All</button>
+        <button ion-button
+                small
+                color="danger"
+                (click)="resetTaps()">Reset "Taps"</button>
+        <button ion-button
+                small
+                color="danger">Reset "Presses"</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>Tap here</ion-col>
+      <ion-col text-center>Press here</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        {{(device$|async|json)}}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

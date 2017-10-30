@@ -1,25 +1,23 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the SettingsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {BackgroundService} from "../../services/background";
+import {Component} from "@angular/core";
+import {IonicPage, Toggle} from "ionic-angular";
+import {Observable} from "rxjs/Observable";
 
 @IonicPage()
 @Component({
-  selector: 'page-settings',
-  templateUrl: 'settings.html',
+  selector: "page-settings",
+  templateUrl: "settings.html"
 })
 export class SettingsPage {
+  checked$: Observable<boolean>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private bgService: BackgroundService) {}
+
+  onToggle(toggle: Toggle) {
+    this.bgService.checked.next(toggle.checked);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SettingsPage');
+  ngOnInit() {
+    this.checked$ = this.bgService.checked;
   }
-
 }

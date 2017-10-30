@@ -1,12 +1,10 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Store} from '@ngrx/store';
+import {IonicPage, ViewController} from 'ionic-angular';
+import {Observable} from 'rxjs/Observable';
 
-/**
- * Generated class for the QuotePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {AppState} from '../../store/app.store';
+import {DeselectQuote, Quote, selectCurrentFavQuote} from '../../store/quote';
 
 @IonicPage()
 @Component({
@@ -14,9 +12,16 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
   templateUrl: 'quote.html'
 })
 export class QuotePage {
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  quote$: Observable<Quote>;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad QuotePage');
+  constructor(private viewCtrl: ViewController, private store: Store<AppState>) {}
+
+  ngOnInit() {
+    this.quote$ = this.store.select(selectCurrentFavQuote);
+  }
+
+  onClose(remove = false) {
+    this.store.dispatch<DeselectQuote>({type: '[Quote] Deselect Quote'});
+    this.viewCtrl.dismiss(remove);
   }
 }
